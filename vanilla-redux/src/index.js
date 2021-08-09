@@ -19,6 +19,9 @@ const deleteToDo = (id) => {
     id,
   };
 };
+
+
+
 const reducer = (state = [], action) => {
   console.log(action);
   switch (action.type) {
@@ -30,6 +33,8 @@ const reducer = (state = [], action) => {
       return state;
   }
 };
+
+
 const store = createStore(reducer);
 
 store.subscribe(() => console.log(store.getState()));

@@ -1,5 +1,6 @@
 import { createStore } from "redux";
-import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
+import ToDo from "./components/ToDo";
 
 // const ADD = "ADD";
 // const DELETE = "DELETE";
@@ -15,13 +16,9 @@ import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
 //     id : parseInt(id)
 //   };
 // };
-
 //리덕스 툴킷을 이용하면 이걸로 대체가능
-const addToDo = createAction("ADD");
-const deleteToDo = createAction("DELETE");
-
-
-
+// const addToDo = createAction("ADD");
+// const deleteToDo = createAction("DELETE");
 
 // const reducer = (state = [], action) => {
 //   switch (action.type) {
@@ -35,20 +32,30 @@ const deleteToDo = createAction("DELETE");
 //   }
 // };
 //얘도리덕스 툴킷으로 바꾸면
-const reducer = createReducer([], {
-  [addToDo]: (state, action) => {
-    state.push({ text: action.payload, id: Date.now() });
-  },
-  [deleteToDo]: (state, action) => {
-    state.filter(toDo => toDo.id !== action.payload)
+// const reducer = createReducer([], {
+//   [addToDo]: (state, action) => {
+//     state.push({ text: action.payload, id: Date.now() });
+//   },
+//   [deleteToDo]: (state, action) => {
+//     state.filter(toDo => toDo.id !== action.payload)
+//   },
+// });
+
+const toDos = createSlice({
+  name: "toDoReducer",
+  initialState: [],
+  reducer: {
+    add: (state, action) => {
+      state.push({ text: action.payload, id: Date.now() });
+    },
+    remove: (state, action) => {
+      state.filter((toDo) => toDo.id !== action.payload);
+    },
   },
 });
 
-const store = configureStore({reducer});
+const store = configureStore({ reducer: toDos.reducer });
 
-export const actionCreators = {
-  addToDo,
-  deleteToDo,
-};
+export const { add, remove } = toDos.actions;
 
 export default store;
